@@ -1,0 +1,28 @@
+<!--
+    DOCS: https://xdsoft.net/jqplugins/datetimepicker/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DateTimePicker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/jquery.datetimepicker.min.css">
+</head>
+    <div class="form-control">
+        <label for="" class="font-700">Schedule Time </label>
+        <input name="schedule_time" type="text" class="form-control" id="schedule_time" placeholder="Schedule Time" value="<%= moment(eventdata.schedule_time).format('YYYY/MM/DD hh:mm') %>">
+    </div>
+    <script  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.0/moment-timezone-with-data.min.js"></script>
+    <script  src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#schedule_time').datetimepicker({
+                dateFormat: 'dd-mm-yy',
+            });
+        });
+    </script>
+</body>
+</html>
