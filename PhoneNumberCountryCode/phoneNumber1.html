@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>intlTelInput PhoneNumber</title>
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.8/css/intlTelInput.css" />
+</head>
+<body>
+	<div class="jumbotron">
+		<div class="container">
+		  	<form action="/action_page.php">
+		   	 	<div class="form-group">
+				    <label for="admin_phone_number" class="form-label d-block">Admin Phone Number <span class="asterisk">*</span></label>
+                    <input type="hidden" name="country_code" id="country_code" value="">
+                    <input type="hidden" name="country_code_flags" id="country_code_flags" value="">
+                    <input type="text" id="admin_phone_number" class="form-control" placeholder="Admin Phone Number" name="admin_phone_number" autocomplete="off" minlength="10" maxlength="10" value="">
+		    	</div>
+		  	</form>
+		</div>
+	</div>
+    <script type="text/javascript" src="https://dashboard.pmgeniusapp.com/js/jquery.min.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.8/js/intlTelInput-jquery.min.js"></script>
+	<script type="text/javascript">
+	  	$(document).ready(function () {
+
+	  		/** CREATE PAGE **/
+
+		    var input = $("#admin_phone_number");
+		    geoIpLookup = function (callback) {
+		      	$.get('', function () {
+		      	}, "jsonp").always(function (resp) {
+		        	var countryCode = 'US';
+		        	callback(countryCode);
+		      	});
+		    },
+		    geoIpLookup((countryCode) => {
+		      	input.intlTelInput({ initialCountry: countryCode.toLowerCase(), separateDialCode: true });
+		    })
+		    input.on("countrychange", function() {
+		      	$("input[name=country_code]").val(input.intlTelInput("getSelectedCountryData").dialCode);
+		      	$("input[name=country_code_flags]").val(input.intlTelInput("getSelectedCountryData").iso2);
+		    });
+		    const phoneNo = () => {
+		      input.intlTelInput("setCountry", "gb");
+		      input.intlTelInput("setNumber", "+447986129475");
+		    }
+
+		    /** END CREATE PAGE **/
+
+		    /** EDIT PAGE **/
+	    	
+	    	//var input             = $("#admin_phone_number");
+		    //var country_code_flag = '<%= data.country_code_flags %>';
+		    //var country_code_flag = 'IN';
+		    //geoIpLookup = function (callback) {
+		    //   $.get('', function () {
+		    //   }, "jsonp").always(function (resp) {
+		    //   var countryCode = country_code_flag;
+		    //     	callback(countryCode);
+		    //   });
+		    //},
+		    //geoIpLookup((countryCode)=>{
+		    //   input.intlTelInput({ initialCountry: countryCode.toLowerCase(), separateDialCode:true });
+		    //})
+		    //input.on("countrychange", function() {
+		    //   $("input[name=country_code]").val(input.intlTelInput("getSelectedCountryData").dialCode);
+		    //   $("input[name=country_code_flags]").val(input.intlTelInput("getSelectedCountryData").iso2);
+		    //   intlTelInputUtils.formatNumber(myNumber, null, intlTelInputUtils.numberFormat.INTERNATIONAL);
+		    //});
+		    //const phoneNo = () => {
+		    //   input.intlTelInput("setCountry", "gb");
+		    //   input.intlTelInput("setNumber", "+447986129475");
+		    //}
+			
+			/** END EDIT PAGE **/
+	  	});
+
+	  	//Feature like login with same number then in all website pages mai same phoneNumber Country Code selected.
+	    // let phoneNo = { dialCode: input.intlTelInput("getSelectedCountryData").dialCode, countryCode: input.intlTelInput("getSelectedCountryData").iso2 };
+	    // setCookie('defaultPhoneNumber', JSON.stringify(phoneNo), 1);
+	</script>
+</body>
+</html>

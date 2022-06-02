@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>intlTelInput PhoneNumber</title>
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.8/css/intlTelInput.css" />
+</head>
+<body>
+	<div class="jumbotron">
+		<div class="container">
+		  	<form action="/action_page.php">
+		   	 	<div class="form-group">
+		   	 		<label for="pwd">Phone Number:</label>
+				    <input type="hidden" name="dialcode" class="dialCode">
+				    <input type="hidden" name="country_abbr" class="country_codess">
+				    <input class="phone_number form-control" type="tel" tabindex="2" id="phone" name="phone" value="" maxlength="10" placeholder="">
+		    	</div>
+		  	</form>
+		</div>
+	</div>
+    <script type="text/javascript" src="https://dashboard.pmgeniusapp.com/js/jquery.min.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.8/js/intlTelInput-jquery.min.js"></script>
+	<script type="text/javascript">
+	  	$(document).ready(function () {
+		    
+	  		/** CREATE PAGE **/
+		    var input = $("#phone");
+		    geoIpLookup = function (callback) {
+		      	$.get('https://ipinfo.io', function () {
+		      	}, "jsonp").always(function (resp) {
+		        	var countryCode = (resp && resp.country) ? resp.country : "";
+		        	callback(countryCode);
+		      	});
+		    },
+		    geoIpLookup((countryCode)=>{
+		      	countryCode = (countryCode == "")? "us" : countryCode.toLowerCase();
+		      	input.intlTelInput({ initialCountry: countryCode, separateDialCode:true });
+		      	$(".dialCode").val(input.intlTelInput("getSelectedCountryData").dialCode);
+		      	$(".country_codess").val(input.intlTelInput("getSelectedCountryData").iso2);
+		    })
+		    input.on("countrychange", function() {
+		      	$(".dialCode").val(input.intlTelInput("getSelectedCountryData").dialCode);
+		      	$(".country_codess").val(input.intlTelInput("getSelectedCountryData").iso2);
+		    });
+
+		    /** END CREATE PAGE **/
+
+		    /** EDIT PAGE **/
+		    	//var dialCode    = "<%= data[0].dial_code %>";
+     			//var countryAbbr = "<%= data[0].country_abbr %>";
+			 	//var input       = $("#phone");
+			 	//var dialCode    = "+852";
+			 	//var countryAbbr = "HK";
+			 	//$(".dialCode").val(dialCode);
+			 	//$(".country_codess").val(countryAbbr);
+			 	//input.intlTelInput({ initialCountry: countryAbbr, separateDialCode:true });
+				// input.on("countrychange", function() {
+				//     $(".dialCode").val(input.intlTelInput("getSelectedCountryData").dialCode);
+				//     $(".country_codess").val(input.intlTelInput("getSelectedCountryData").iso2);
+				// });
+			/** END EDIT PAGE **/
+	  	});
+	  	
+	  	//Feature like login with same number then in all website pages mai same phoneNumber Country Code selected.
+	    // let phoneNo = { dialCode: input.intlTelInput("getSelectedCountryData").dialCode, countryCode: input.intlTelInput("getSelectedCountryData").iso2 };
+	    // setCookie('defaultPhoneNumber', JSON.stringify(phoneNo), 1);
+	</script>
+</body>
+</html>
